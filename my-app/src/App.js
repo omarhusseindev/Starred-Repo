@@ -51,9 +51,14 @@ const Global = createGlobalStyle({
     textTransform: 'uppercase',
     fontFamily: '"Open Sans Condensed", "sans-serif"',
     fontWeight: '100',
-
-
   },
+  input: {
+    padding: 8,
+    borderRadius: 6,
+    border: '2px solid #fff',
+    boxShadow: 'inset 0px 1px 1px rgba(0, 0, 0, 0.33)',
+  }
+
 });
 
 class App extends Component {

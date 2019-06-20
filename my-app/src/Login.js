@@ -24,7 +24,7 @@ const Login = () => {
                     onChange={e => {
                         setToken(e.target.value);
                     }}
-                    placeholder="Github token"
+                    placeholder="Add Github token here"
                 />
                 <Button>SUBMIT</Button>
             </form>
