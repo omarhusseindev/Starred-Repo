@@ -1,30 +1,41 @@
 import React, { Component, Fragment } from 'react';
+import { ApolloClient } from "apollo-boost";
+import { ApolloProvider } from "react-apollo";
+import { createHttpLink } from 'apollo-link-http';
+import { setContext } from 'apollo-link-context';
+import { InMemoryCache } from 'apollo-cache-inmemory';
 import { createGlobalStyle } from 'styled-components';
 
 
 import Login from './Login';
 
-import Button from './Button';
+
+import Avatar from './components/Avatar';
+
+
+const httpLink = createHttpLink({
+  uri: 'https://api.github.com/graphql',
+});
 
 // get the authentication token from local storage if it exists
 const accessToken = localStorage.getItem('token');
 
+const authLink = setContext((_, { headers }) => {
+  // return the headers to the context so httpLink can read them
+  return {
+    headers: {
+      ...headers,
+      authorization: accessToken ? `Bearer ${accessToken}` : "",
+    }
+  }
+});
 
-fetch('https://api.github.com/graphql', {
-  method: 'POST',
-  headers: {
-    Authorization: `bearer ${accessToken}`,
-  },
-  body: JSON.stringify({
-    query: `{
-      viewer {
-        login
-      }
-    }`
-  })
-})
-  .then(res => res.json())
-  .then(json => console.log(json))
+const client = new ApolloClient({
+  link: authLink.concat(httpLink),
+  cache: new InMemoryCache()
+});
+
+
 
 const Global = createGlobalStyle({
   body: {
@@ -57,6 +68,10 @@ const Global = createGlobalStyle({
     borderRadius: 6,
     border: '2px solid #fff',
     boxShadow: 'inset 0px 1px 1px rgba(0, 0, 0, 0.33)',
+  },
+
+  img: {
+    width: '10%',
   }
 
 });
@@ -66,10 +81,11 @@ class App extends Component {
     return (
       <Fragment>
         <Global />
-        {accessToken ? (<Button onClick={() => {
-          localStorage.clear();
-          window.location.reload();
-        }}>Logout</Button>) : (<Login />)}
+        {accessToken ? (
+          <ApolloProvider client={client}>
+            <Avatar />
+          </ApolloProvider>)
+          : (<Login />)}
       </Fragment>
     )
   }
