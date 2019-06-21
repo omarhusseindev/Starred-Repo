@@ -20,6 +20,7 @@ const httpLink = createHttpLink({
 
 // get the authentication token from local storage if it exists
 const accessToken = localStorage.getItem('token');
+const githubName = localStorage.getItem('name');
 
 const authLink = setContext((_, { headers }) => {
   // return the headers to the context so httpLink can read them
@@ -87,7 +88,7 @@ class App extends Component {
           <ApolloProvider client={client}>
             <div>
               <h1>Where's my repo?</h1>
-              <Column user={`omarhusseindev`} title={'My Starred Repos'} starred={true} />
+              <Column user={githubName} title={'My Starred Repos'} starred={true} />
               <Column user={`omarhusseindev`} title={'All My Repos'} starred={false} />
               <Footer />
             </div>
