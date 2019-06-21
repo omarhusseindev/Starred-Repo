@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 
-import Button from './Button';
+import Button from './components/Button';
 
 const Login = () => {
     const [token, setToken] = useState('');
@@ -17,6 +17,7 @@ const Login = () => {
                 <h1>
                     Find my repo !
 				</h1>
+                <p>Please enter your Github personal token below</p>
                 <input
                     type="password"
                     name="token"

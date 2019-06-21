@@ -10,7 +10,8 @@ import { createGlobalStyle } from 'styled-components';
 import Login from './Login';
 
 
-import Avatar from './components/Avatar';
+import Footer from './components/Footer';
+import Column from './components/Column'
 
 
 const httpLink = createHttpLink({
@@ -56,12 +57,13 @@ const Global = createGlobalStyle({
   h1: {
     background: '#4D4D4D',
     padding: '20px',
-    margin: '0px -20px 30px -20px',
-    color: '#797979',
+    margin: '0px 0px 30px 0px',
+    color: '#FFFF',
     fontSize: '18px',
     textTransform: 'uppercase',
     fontFamily: '"Open Sans Condensed", "sans-serif"',
     fontWeight: '100',
+    textAlign: 'center',
   },
   input: {
     padding: 8,
@@ -83,7 +85,12 @@ class App extends Component {
         <Global />
         {accessToken ? (
           <ApolloProvider client={client}>
-            <Avatar />
+            <div>
+              <h1>Where's my repo?</h1>
+              <Column user={`omarhusseindev`} title={'My Starred Repos'} starred={true} />
+              <Column user={`omarhusseindev`} title={'All My Repos'} starred={false} />
+              <Footer />
+            </div>
           </ApolloProvider>)
           : (<Login />)}
       </Fragment>
