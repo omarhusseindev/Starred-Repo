@@ -90,77 +90,77 @@ const ColumnWrapper = styled.section`
 `;
 
 const Column = ({ user, title, starred }) => {
-    const hasStarred = starred;
-    return (
-        <ColumnWrapper>
-            <Query
-                query={GET_USER_ACTIVITY}
-                variables={{ user, cursor: null }}
-            >
-                {({ data, error, loading, fetchMore }) => (
-                    <>
-                        <h1>{title}</h1>
-                        {loading && <div>Loading...</div>}
-                        {error && <div>{JSON.stringify(error)}</div>}
-                        {data && data.user && (
-                            <>
-                                <div>
-                                    <DisplayImage src={data.user.avatarUrl} width={25} height={25} />
-                                    {hasStarred ? <div>These are your starred repos {user}!</div> :
-                                        <div>{user} repos </div>}
-                                    <br></br>
-                                </div>
+  const hasStarred = starred;
+  return (
+    <ColumnWrapper>
+      <Query
+        query={GET_USER_ACTIVITY}
+        variables={{ user, cursor: null }}
+      >
+        {({ data, error, loading, fetchMore }) => (
+          <>
+            <h1>{title}</h1>
+            {loading && <div>Loading...</div>}
+            {error && <div>Github Personal Token is not recognised, can't retrieve your repositories</div>}
+            {data && data.user && (
+              <>
+                <div>
+                  <DisplayImage src={data.user.avatarUrl} width={25} height={25} />
+                  {hasStarred ? <div>These are your starred repos {user}!</div> :
+                    <div>{user} repos </div>}
+                  <br></br>
+                </div>
 
-                                {hasStarred ? data.user.starredRepositories.edges.map(({ node }) => (
-                                    <RepositoryCard data={node} key={node.id} />
-                                )) :
-                                    data.user.repositories.edges.map(({ node }) => (
-                                        <RepositoryCard data={node} key={node.id} />
-                                    ))}
+                {hasStarred ? data.user.starredRepositories.edges.map(({ node }) => (
+                  <RepositoryCard data={node} key={node.id} />
+                )) :
+                  data.user.repositories.edges.map(({ node }) => (
+                    <RepositoryCard data={node} key={node.id} />
+                  ))}
 
 
 
-                                {data.user.repositories.pageInfo.hasPreviousPage && (
-                                    <>
-                                        <Button
-                                            onClick={() => {
-                                                fetchMore({
-                                                    variables: {
-                                                        cursor:
-                                                            data.user.starredRepositories.pageInfo
-                                                                .startCursor,
-                                                    },
-                                                    updateQuery: (prev, { fetchMoreResult }) => {
-                                                        if (!fetchMoreResult) {
-                                                            return prev;
-                                                        }
-                                                        return {
-                                                            user: {
-                                                                ...prev.user,
-                                                                starredRepositories: {
-                                                                    ...fetchMoreResult.user
-                                                                        .starredRepositories,
-                                                                    edges: [
-                                                                        ...prev.user.starredRepositories
-                                                                            .edges,
-                                                                        ...fetchMoreResult.user
-                                                                            .starredRepositories.edges,
-                                                                    ],
-                                                                },
-                                                            },
-                                                        };
-                                                    },
-                                                });
-                                            }}>Load More</Button>
-                                    </>
-                                )}
-                            </>
-                        )}
-                    </>
+                {data.user.repositories.pageInfo.hasPreviousPage && (
+                  <>
+                    <Button
+                      onClick={() => {
+                        fetchMore({
+                          variables: {
+                            cursor:
+                              data.user.starredRepositories.pageInfo
+                                .startCursor,
+                          },
+                          updateQuery: (prev, { fetchMoreResult }) => {
+                            if (!fetchMoreResult) {
+                              return prev;
+                            }
+                            return {
+                              user: {
+                                ...prev.user,
+                                starredRepositories: {
+                                  ...fetchMoreResult.user
+                                    .starredRepositories,
+                                  edges: [
+                                    ...prev.user.starredRepositories
+                                      .edges,
+                                    ...fetchMoreResult.user
+                                      .starredRepositories.edges,
+                                  ],
+                                },
+                              },
+                            };
+                          },
+                        });
+                      }}>Load More</Button>
+                  </>
                 )}
-            </Query>
-        </ColumnWrapper>
-    )
+              </>
+            )}
+          </>
+        )}
+      </Query>
+    </ColumnWrapper>
+  )
 }
 
 export default Column;

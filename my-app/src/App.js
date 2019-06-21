@@ -89,7 +89,7 @@ class App extends Component {
             <div>
               <h1>Where's my repo?</h1>
               <Column user={githubName} title={'My Starred Repos'} starred={true} />
-              <Column user={`omarhusseindev`} title={'All My Repos'} starred={false} />
+              <Column user={githubName} title={'All My Repos'} starred={false} />
               <Footer />
             </div>
           </ApolloProvider>)

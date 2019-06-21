@@ -7,11 +7,14 @@
     "apollo-cache-inmemory": "^1.6.2",
     "apollo-link-context": "^1.0.18",
     "apollo-link-http": "^1.5.15",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "graphql": "^14.3.1",
     "react": "^16.8.6",
     "react-apollo": "^2.5.6",
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1",
+    "react-test-renderer": "^16.8.6",
     "styled-components": "^4.3.1"
   },
   "scripts": {
